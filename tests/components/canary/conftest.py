@@ -9,7 +9,7 @@ from tests.async_mock import MagicMock, patch
 def canary(hass):
     """Mock the CanaryApi for easier testing."""
     with patch.object(Api, "login", return_value=True), patch(
-        "homeassistant.components.canary.coordinator.Api"
+        "homeassistant.components.canary.Api"
     ) as mock_canary:
         instance = mock_canary.return_value = Api(
             "test-username",
