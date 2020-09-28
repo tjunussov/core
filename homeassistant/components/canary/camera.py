@@ -89,7 +89,7 @@ class CanaryCamera(CoordinatorEntity, Camera):
         self._live_stream_session = None
 
     @property
-    def location(self);
+    def location(self):
         """Return infomation about the location."""
         return self.coordinator.data.locations[self._location_id]
 
