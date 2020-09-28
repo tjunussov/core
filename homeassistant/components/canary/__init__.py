@@ -13,7 +13,6 @@ from homeassistant.const import CONF_PASSWORD, CONF_TIMEOUT, CONF_USERNAME
 from homeassistant.exceptions import ConfigEntryNotReady
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import HomeAssistantType
-from homeassistant.util import Throttle
 
 from .const import (
     CONF_FFMPEG_ARGUMENTS,
