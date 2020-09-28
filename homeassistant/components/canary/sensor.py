@@ -100,7 +100,15 @@ class CanarySensor(CoordinatorEntity, Entity):
         """Return the device sensor reading."""
         readings = self.coordinator.data.readings[self._device_id]
 
-        value = readings.get(self._canary_type)
+        valus = next(
+            (
+                reading.value
+                for reading in readings
+                if reading.sensor_type == self._canary_type
+            ),
+            None,
+        )
+
         if value is not None:
             return round(float(value), SENSOR_VALUE_PRECISION)
 
