@@ -54,7 +54,7 @@ class CanaryAlarm(CoordinatorEntity, AlarmControlPanelEntity):
 
     @property
     def location(self):
-        """Return infomation about the location."""
+        """Return information about the location."""
         return self.coordinator.data.locations[self._location_id]
 
     @property
