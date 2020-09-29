@@ -78,7 +78,6 @@ class CanarySensor(CoordinatorEntity, Entity):
         self._device_id = device.device_id
         self._device_name = device.name
         self._device_type_name = device.device_type["name"]
-        self._sensor_value = None
 
         sensor_type_name = sensor_type[0].replace("_", " ").title()
         self._name = f"{location.name} {device.name} {sensor_type_name}"
@@ -102,7 +101,7 @@ class CanarySensor(CoordinatorEntity, Entity):
         """Return the device sensor reading."""
         readings = self.coordinator.data.readings[self._device_id]
 
-        valus = next(
+        value = next(
             (
                 reading.value
                 for reading in readings
