@@ -33,7 +33,9 @@ async def async_setup_entry(
     async_add_entities: Callable[[List[Entity], bool], None],
 ) -> None:
     """Set up Canary alarm control panels based on a config entry."""
-    coordinator: CanaryDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][DATA_COORDINATOR]
+    coordinator: CanaryDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][
+        DATA_COORDINATOR
+    ]
     alarms = [
         CanaryAlarm(coordinator, location.location_id)
         for location in coordinator.data.locations
@@ -93,7 +95,9 @@ class CanaryAlarm(CoordinatorEntity, AlarmControlPanelEntity):
 
     def alarm_disarm(self, code=None):
         """Send disarm command."""
-        self.coordinator.canary.set_location_mode(self._location_id, self.location.mode.name, True)
+        self.coordinator.canary.set_location_mode(
+            self._location_id, self.location.mode.name, True
+        )
 
     def alarm_arm_home(self, code=None):
         """Send arm home command."""
@@ -105,4 +109,6 @@ class CanaryAlarm(CoordinatorEntity, AlarmControlPanelEntity):
 
     def alarm_arm_night(self, code=None):
         """Send arm night command."""
-        self.coordinator.canary.set_location_mode(self._location_id, LOCATION_MODE_NIGHT)
+        self.coordinator.canary.set_location_mode(
+            self._location_id, LOCATION_MODE_NIGHT
+        )

@@ -50,7 +50,9 @@ async def async_setup_entry(
     async_add_entities: Callable[[List[Entity], bool], None],
 ) -> None:
     """Set up Canary sensors based on a config entry."""
-    coordinator: CanaryDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][DATA_COORDINATOR]
+    coordinator: CanaryDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][
+        DATA_COORDINATOR
+    ]
     ffmpeg_arguments = entry.options.get(
         CONF_FFMPEG_ARGUMENTS, DEFAULT_FFMPEG_ARGUMENTS
     )
@@ -161,4 +163,6 @@ class CanaryCamera(CoordinatorEntity, Camera):
     @Throttle(MIN_TIME_BETWEEN_SESSION_RENEW)
     def renew_live_stream_session(self):
         """Renew live stream session."""
-        self._live_stream_session = self.coordinator.canary.get_live_stream_session(self._device)
+        self._live_stream_session = self.coordinator.canary.get_live_stream_session(
+            self._device
+        )
