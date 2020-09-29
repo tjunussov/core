@@ -65,7 +65,7 @@ async def async_setup_entry(
                     CanaryCamera(
                         hass,
                         coordinator,
-                        location,
+                        location.id,
                         device,
                         DEFAULT_TIMEOUT,
                         ffmpeg_arguments,
@@ -78,12 +78,12 @@ async def async_setup_entry(
 class CanaryCamera(CoordinatorEntity, Camera):
     """An implementation of a Canary security camera."""
 
-    def __init__(self, hass, coordinator, location, device, timeout, ffmpeg_args):
+    def __init__(self, hass, coordinator, location_id, device, timeout, ffmpeg_args):
         """Initialize a Canary security camera."""
         super().__init__(coordinator)
         self._ffmpeg = hass.data[DATA_FFMPEG]
         self._ffmpeg_arguments = ffmpeg_args
-        self._device = device
+        self._location_id = location_id
         self._device_id = device.device_id
         self._device_name = device.name
         self._device_type_name = device.device_type["name"]
