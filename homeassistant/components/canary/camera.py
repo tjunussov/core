@@ -84,6 +84,7 @@ class CanaryCamera(CoordinatorEntity, Camera):
         self._ffmpeg = hass.data[DATA_FFMPEG]
         self._ffmpeg_arguments = ffmpeg_args
         self._location_id = location_id
+        self._device = device
         self._device_id = device.device_id
         self._device_name = device.name
         self._device_type_name = device.device_type["name"]
