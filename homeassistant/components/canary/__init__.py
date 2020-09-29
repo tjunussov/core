@@ -94,7 +94,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         _LOGGER.error("Unable to connect to Canary service: %s", str(error))
         raise ConfigEntryNotReady from error
 
-    coordinator = CanaryDataUpdateCoordinator(api=canary_api)
+    coordinator = CanaryDataUpdateCoordinator(hass, api=canary_api)
     await coordinator.async_refresh()
 
     if not coordinator.last_update_success:
