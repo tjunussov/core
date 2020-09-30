@@ -37,8 +37,8 @@ async def async_setup_entry(
         DATA_COORDINATOR
     ]
     alarms = [
-        CanaryAlarm(coordinator, location.location_id)
-        for location in coordinator.data["locations"]
+        CanaryAlarm(coordinator, location_id)
+        for location_id in coordinator.data["locations"]
     ]
 
     async_add_entities(alarms, True)
