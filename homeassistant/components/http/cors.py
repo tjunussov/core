@@ -16,7 +16,6 @@ ALLOWED_CORS_HEADERS = [
 ]
 VALID_CORS_TYPES = (Resource, ResourceRoute, StaticResource)
 
-
 @callback
 def setup_cors(app, origins):
     """Set up CORS."""
@@ -29,7 +28,7 @@ def setup_cors(app, origins):
         app,
         defaults={
             host: aiohttp_cors.ResourceOptions(
-                allow_headers=ALLOWED_CORS_HEADERS, allow_methods="*"
+                allow_credentials=True, allow_headers=ALLOWED_CORS_HEADERS, allow_methods="*"
             )
             for host in origins
         },
@@ -39,18 +38,24 @@ def setup_cors(app, origins):
 
     def _allow_cors(route, config=None):
         """Allow CORS on a route."""
+        
+        # Skipping OPTIONS it is already handled by CORS
+        if route.method == "OPTIONS":
+           return
+
         if hasattr(route, "resource"):
-            path = route.resource
+            path = route.resource.canonical
+            
+            if not isinstance(route.resource, VALID_CORS_TYPES):
+              return
         else:
-            path = route
+            path = "#"
 
-        if not isinstance(path, VALID_CORS_TYPES):
-            return
+        # Allow Hassio Addons CORS also
+        #if path.startswith("/api/hassio_ingress/"):
+        #   return
 
-        path = path.canonical
-
-        if path.startswith("/api/hassio_ingress/"):
-            return
+        path = f"{route.method}{path}"
 
         if path in cors_added:
             return
@@ -62,7 +67,7 @@ def setup_cors(app, origins):
         route,
         {
             "*": aiohttp_cors.ResourceOptions(
-                allow_headers=ALLOWED_CORS_HEADERS, allow_methods="*"
+                allow_credentials=True, allow_headers=ALLOWED_CORS_HEADERS, allow_methods="*"
             )
         },
     )
@@ -72,7 +77,7 @@ def setup_cors(app, origins):
 
     async def cors_startup(app):
         """Initialize CORS when app starts up."""
-        for resource in list(app.router.resources()):
-            _allow_cors(resource)
-
+        for route in list(app.router.routes()): # <-- Workaround, we use routes rather than resources due to bug: in aiohttp_cors
+            _allow_cors(route)
+            
     app.on_startup.append(cors_startup)
