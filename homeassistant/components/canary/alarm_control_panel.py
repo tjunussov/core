@@ -38,7 +38,7 @@ async def async_setup_entry(
     ]
     alarms = [
         CanaryAlarm(coordinator, location.location_id)
-        for location in coordinator.data.locations
+        for location in coordinator.data["locations"]
     ]
 
     async_add_entities(alarms, True)
@@ -55,7 +55,7 @@ class CanaryAlarm(CoordinatorEntity, AlarmControlPanelEntity):
     @property
     def location(self):
         """Return information about the location."""
-        return self.coordinator.data.locations[self._location_id]
+        return self.coordinator.data["locations"][self._location_id]
 
     @property
     def name(self):
