@@ -58,8 +58,8 @@ async def async_setup_entry(
     )
     cameras = []
 
-    for location in coordinator.data["locations"]:
-        for device in location.xevices:
+    for location in coordinator.data["locations"].items():
+        for device in location.devices:
             if device.is_online:
                 cameras.append(
                     CanaryCamera(
