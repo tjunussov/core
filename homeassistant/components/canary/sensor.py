@@ -99,7 +99,7 @@ class CanarySensor(CoordinatorEntity, Entity):
     @property
     def reading(self):
         """Return the device sensor reading."""
-        readings = self.coordinator.data.readings[self._device_id]
+        readings = self.coordinator.data["readings"][self._device_id]
 
         value = next(
             (
