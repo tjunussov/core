@@ -94,7 +94,7 @@ class CanaryCamera(CoordinatorEntity, Camera):
     @property
     def location(self):
         """Return information about the location."""
-        return self.coordinator.data.locations[self._location_id]
+        return self.coordinator.data["locations"][self._location_id]
 
     @property
     def name(self):
