@@ -58,7 +58,7 @@ async def async_setup_entry(
     )
     cameras = []
 
-    for location in coordinator.data.["locations"]:
+    for location in coordinator.data["locations"]:
         for device in location.xevices:
             if device.is_online:
                 cameras.append(
