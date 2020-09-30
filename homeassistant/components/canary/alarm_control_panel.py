@@ -37,8 +37,8 @@ async def async_setup_entry(
         DATA_COORDINATOR
     ]
     alarms = [
-        CanaryAlarm(coordinator, location_id)
-        for location_id in coordinator.data["locations"]
+        CanaryAlarm(coordinator, location)
+        for location in coordinator.data["locations"].items()
     ]
 
     async_add_entities(alarms, True)
@@ -47,10 +47,11 @@ async def async_setup_entry(
 class CanaryAlarm(CoordinatorEntity, AlarmControlPanelEntity):
     """Representation of a Canary alarm control panel."""
 
-    def __init__(self, coordinator, location_id):
+    def __init__(self, coordinator, location):
         """Initialize a Canary security camera."""
         super().__init__(coordinator)
-        self._location_id = location_id
+        self._location_id = location.id
+        self._location_name = location.name
 
     @property
     def location(self):
@@ -60,7 +61,7 @@ class CanaryAlarm(CoordinatorEntity, AlarmControlPanelEntity):
     @property
     def name(self):
         """Return the name of the alarm."""
-        return self.location.name
+        return self._location_name
 
     @property
     def unique_id(self):
